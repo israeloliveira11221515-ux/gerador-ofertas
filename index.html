@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Folheto estilo Atacadista</title>
+<title>Gerador de Ofertas (Individual + Folheto)</title>
 <style>
   :root{
     --text:#eaf2ff;
@@ -69,6 +69,17 @@
   .btn.blue{background:linear-gradient(180deg,#2d67ff,#1b4dff);display:none}
   .small{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.4}
 
+  .tabs{display:flex; gap:10px; margin-bottom:10px}
+  .tab{
+    flex:1; padding:10px 12px; border-radius:12px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.06);
+    color:#d7e6ff;
+    cursor:pointer;
+    font-weight:700;
+  }
+  .tab.active{background:rgba(27,77,255,.28); border-color:rgba(27,77,255,.45)}
+
   .prodItem{
     background:rgba(0,0,0,.18);
     border:1px solid rgba(255,255,255,.10);
@@ -106,16 +117,22 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>Folheto estilo Assaí (clean)</h1>
-  <p>Topo azul + fundo branco + preços vermelhos + grade de produtos, bem organizado.</p>
+  <h1>Gerador de ofertas (Individual + Folheto)</h1>
+  <p>Modo 1: imagem de 1 produto (WhatsApp). Modo 2: folheto com vários produtos.</p>
 
   <div class="grid">
     <div class="panel">
       <div class="hd">
         <b>Configuração</b>
-        <span class="pill">Estilo Atacadista</span>
+        <span class="pill">Estilo atacadista</span>
       </div>
       <div class="bd">
+
+        <div class="tabs">
+          <button class="tab active" id="tabInd" type="button" onclick="setModo('ind')">Imagem individual</button>
+          <button class="tab" id="tabFol" type="button" onclick="setModo('fol')">Folheto</button>
+        </div>
+
         <div class="row two">
           <div>
             <label>Logo esquerda (opcional)</label>
@@ -143,48 +160,66 @@
 
         <div class="row two">
           <div>
-            <label>Nome da loja (rodapé)</label>
-            <input id="loja" placeholder="Ex: Mercantil do João" />
+            <label>Nome da loja</label>
+            <input id="loja" placeholder="Ex: Mercado Nina" />
           </div>
           <div>
-            <label>WhatsApp (rodapé)</label>
-            <input id="whats" placeholder="Ex: (88) 9 9999-9999" />
+            <label>WhatsApp</label>
+            <input id="whats" placeholder="Ex: 85991184925" />
           </div>
         </div>
 
         <div class="row two">
           <div>
-            <label>Formato</label>
-            <select id="formato">
-              <option value="1350">Feed (1080×1350)</option>
-              <option value="1920">Status (1080×1920)</option>
-            </select>
+            <label>Logo pequena da loja (rodapé) (opcional)</label>
+            <input type="file" id="logoRodape" accept="image/*" />
           </div>
           <div>
-            <label>Colunas</label>
-            <select id="cols">
-              <option value="3">3 colunas (igual folheto)</option>
-              <option value="4">4 colunas (mais produtos)</option>
+            <label>Fundo atrás do logo?</label>
+            <select id="logoBg">
+              <option value="0">Não (logo transparente)</option>
+              <option value="1">Sim (caixa branca)</option>
             </select>
           </div>
         </div>
 
-        <label>Adicionar produto</label>
-        <div class="prodItem">
-          <div class="full"><input type="file" id="pFoto" accept="image/*" /></div>
-          <input id="pNome" placeholder="Nome do produto" />
-          <input id="pDesc" placeholder="Descrição curta (ex: 500ml / 1kg)" />
-          <input id="pPreco" placeholder="Preço (ex: 10,90)" />
-          <input id="pObs" class="full" placeholder="Obs pequena (ex: CADA / UND / kg)" />
-          <button type="button" onclick="addProduto()">+ Adicionar na lista</button>
+        <label id="labFormato">Formato</label>
+        <select id="formato">
+          <option value="1080">Individual (1080×1080)</option>
+          <option value="1920">Status (1080×1920)</option>
+          <option value="1350">Feed (1080×1350)</option>
+        </select>
+
+        <div id="areaFolheto">
+          <label>Colunas (Folheto)</label>
+          <select id="cols">
+            <option value="4">4 colunas (igual folheto)</option>
+            <option value="3">3 colunas</option>
+          </select>
         </div>
 
-        <div id="lista"></div>
+        <div id="areaProduto">
+          <label>Produto (obrigatório)</label>
+          <div class="prodItem">
+            <div class="full"><input type="file" id="pFoto" accept="image/*" /></div>
+            <input id="pNome" placeholder="Nome do produto" />
+            <input id="pDesc" placeholder="Descrição curta (ex: 500ml / 1kg)" />
+            <input id="pPreco" placeholder="Preço (ex: 10,90)" />
+            <input id="pObs" class="full" placeholder="Obs pequena (ex: CADA / UND / kg)" />
+            <button type="button" onclick="addProduto()">+ Adicionar na lista</button>
+          </div>
 
-        <button class="btn ok" onclick="gerar()">Gerar folheto</button>
+          <div id="lista"></div>
+        </div>
+
+        <button class="btn ok" onclick="gerar()">Gerar imagem</button>
         <button class="btn blue" id="baixarBtn" onclick="baixar()">Baixar PNG</button>
 
-        <div class="small">Dica: use 9–12 produtos para ficar com cara de folheto. Preço sempre com vírgula.</div>
+        <div class="small">
+          ✅ Individual: 1 produto (WhatsApp).<br>
+          ✅ Folheto: adicione vários produtos (9–16 fica top).<br>
+          Se o logo “parece com fundo”, confirme que o arquivo é PNG com transparência.
+        </div>
       </div>
     </div>
 
@@ -194,8 +229,8 @@
         <span class="pill">Pronto pra postar</span>
       </div>
       <div class="previewBox">
-        <div class="empty" id="empty">Gere o folheto para ver a imagem aqui.</div>
-        <img id="out" alt="Folheto pronto" />
+        <div class="empty" id="empty">Gere a imagem para ver aqui.</div>
+        <img id="out" alt="Imagem pronta" />
       </div>
     </div>
   </div>
@@ -204,6 +239,7 @@
 </div>
 
 <script>
+  // ===== util desenho =====
   function roundRect(ctx, x, y, w, h, r){
     const min = Math.min(w,h);
     r = Math.min(r, min/2);
@@ -267,8 +303,64 @@
     return y + lineHeight;
   }
 
+  // ===== ícones (desenhados no canvas) =====
+  function drawWhatsIcon(ctx, x, y, size){
+    // ícone simplificado do WhatsApp (verde + balão + telefone)
+    const r = size/2;
+    ctx.save();
+    ctx.translate(x, y);
+
+    ctx.beginPath();
+    ctx.fillStyle = "#25D366";
+    ctx.arc(r, r, r, 0, Math.PI*2);
+    ctx.fill();
+
+    // balão
+    ctx.beginPath();
+    ctx.fillStyle = "#fff";
+    ctx.arc(r, r, r*0.65, 0, Math.PI*2);
+    ctx.fill();
+
+    // "telefone" simplificado
+    ctx.strokeStyle = "#25D366";
+    ctx.lineWidth = Math.max(3, size*0.08);
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(r*0.72, r*0.95);
+    ctx.lineTo(r*1.05, r*0.70);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // ===== estado / modo =====
   const produtos = [];
   let lastDataUrl = "";
+  let modo = "ind";
+
+  function setModo(m){
+    modo = m;
+    document.getElementById("tabInd").classList.toggle("active", m==="ind");
+    document.getElementById("tabFol").classList.toggle("active", m==="fol");
+
+    // opções de formato
+    const formato = document.getElementById("formato");
+    formato.innerHTML = "";
+    if(m==="ind"){
+      formato.innerHTML = `
+        <option value="1080">Individual (1080×1080)</option>
+        <option value="1920">Status (1080×1920)</option>
+      `;
+      document.getElementById("areaFolheto").style.display = "none";
+    }else{
+      formato.innerHTML = `
+        <option value="1350">Feed (1080×1350)</option>
+        <option value="1920">Status (1080×1920)</option>
+      `;
+      document.getElementById("areaFolheto").style.display = "block";
+    }
+  }
+  setModo("ind");
 
   function renderLista(){
     const el = document.getElementById("lista");
@@ -317,72 +409,193 @@
       return;
     }
 
-    const formato = document.getElementById("formato").value;
-    const cols = parseInt(document.getElementById("cols").value,10);
+    if(modo === "ind"){
+      await gerarIndividual();
+    }else{
+      await gerarFolheto();
+    }
 
+    // preview
+    lastDataUrl = document.getElementById("c").toDataURL("image/png");
+    const out = document.getElementById("out");
+    out.src = lastDataUrl;
+    out.style.display = "block";
+    document.getElementById("empty").style.display = "none";
+    document.getElementById("baixarBtn").style.display = "block";
+  }
+
+  async function gerarBaseTopo(ctx, W){
     const titulo = (document.getElementById("titulo").value||"").trim();
     const sub = (document.getElementById("sub").value||"").trim();
     const validade = (document.getElementById("validade").value||"").trim();
-    const loja = (document.getElementById("loja").value||"").trim();
-    const whats = (document.getElementById("whats").value||"").trim();
 
     const logoL = await loadFileAsImage(document.getElementById("logoL").files[0]);
     const logoR = await loadFileAsImage(document.getElementById("logoR").files[0]);
 
-    const canvas = document.getElementById("c");
-    const ctx = canvas.getContext("2d");
-
-    const W = 1080;
-    const H = (formato === "1920") ? 1920 : 1350;
-    canvas.width = W; canvas.height = H;
-
-    // ===== Fundo branco (folheto) =====
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0,0,W,H);
-
-    // ===== Header azul =====
+    // Header azul
     ctx.fillStyle = "#1b4dff";
     ctx.fillRect(0,0,W,220);
 
-    // linha arco/cores
-    ctx.fillStyle = "#ffd400";
-    ctx.fillRect(0,220,W,10);
-    ctx.fillStyle = "#ff3b30";
-    ctx.fillRect(0,230,W,8);
+    // linhas
+    ctx.fillStyle = "#ffd400"; ctx.fillRect(0,220,W,10);
+    ctx.fillStyle = "#ff3b30"; ctx.fillRect(0,230,W,8);
 
-    // textos topo
-    ctx.fillStyle = "#fff";
-    ctx.font = "900 58px Arial";
-    wrapText(ctx, titulo.toUpperCase(), 540, 85, 780, 58, 2, "center");
-
-    ctx.font = "700 30px Arial";
-    wrapText(ctx, sub.toUpperCase(), 540, 175, 780, 34, 1, "center");
-
-    // validade (canto)
+    // validade
     ctx.fillStyle = "rgba(0,0,0,.55)";
-    roundRect(ctx, 820, 18, 240, 52, 18);
+    roundRect(ctx, W-260, 18, 240, 52, 18);
     ctx.fill();
     ctx.fillStyle = "#fff";
     ctx.font = "700 24px Arial";
-    ctx.fillText(validade, 840, 52);
+    ctx.fillText(validade, W-240, 52);
 
-    // logos
+    // logos (SEM caixa por padrão)
     if(logoL){
-      ctx.fillStyle = "rgba(255,255,255,.92)";
-      roundRect(ctx, 30, 35, 150, 150, 22);
-      ctx.fill();
-      drawImageContain(ctx, logoL, 30, 35, 150, 150);
+      drawImageContain(ctx, logoL, 26, 38, 160, 160);
     }
     if(logoR){
-      ctx.fillStyle = "rgba(255,255,255,.92)";
-      roundRect(ctx, 900, 80, 150, 100, 22);
-      ctx.fill();
-      drawImageContain(ctx, logoR, 900, 80, 150, 100);
+      drawImageContain(ctx, logoR, W-190, 80, 160, 110);
     }
 
-    // ===== Grade =====
+    // texto central
+    ctx.fillStyle = "#fff";
+    ctx.textAlign = "center";
+    ctx.font = "900 52px Arial";
+    wrapText(ctx, titulo.toUpperCase(), W/2, 86, 720, 52, 2, "center");
+
+    ctx.font = "700 30px Arial";
+    wrapText(ctx, sub.toUpperCase(), W/2, 176, 720, 34, 1, "center");
+    ctx.textAlign = "left";
+  }
+
+  async function gerarRodape(ctx, W, H){
+    const loja = (document.getElementById("loja").value||"").trim();
+    const whats = (document.getElementById("whats").value||"").trim();
+    const logoRod = await loadFileAsImage(document.getElementById("logoRodape").files[0]);
+    const logoBg = document.getElementById("logoBg").value === "1";
+
+    // barra cinza
+    ctx.fillStyle = "#f2f2f2";
+    ctx.fillRect(0, H-90, W, 90);
+
+    // logo ao lado da loja (se tiver)
+    let x = 28;
+    if(logoRod){
+      const box = 58;
+      if(logoBg){
+        ctx.fillStyle = "#fff";
+        roundRect(ctx, x, H-74, box, box, 14);
+        ctx.fill();
+      }
+      drawImageContain(ctx, logoRod, x, H-74, box, box);
+      x += box + 14;
+    }
+
+    // texto da loja
+    ctx.fillStyle = "#111";
+    ctx.font = "800 20px Arial";
+    ctx.fillText((loja || "Sua loja").toUpperCase(), x, H-54);
+
+    // Whats icon + número
+    const wx = x;
+    const wy = H-44;
+    drawWhatsIcon(ctx, wx, wy, 26);
+    ctx.fillStyle = "#111";
+    ctx.font = "700 20px Arial";
+    ctx.fillText((whats || "SEU WHATS"), wx + 36, H-24);
+
+    // observação pequena
+    ctx.fillStyle = "#333";
+    ctx.font = "700 14px Arial";
+    ctx.fillText("Ofertas válidas enquanto durarem os estoques. Imagens ilustrativas.", 28, H-8);
+  }
+
+  async function gerarIndividual(){
+    const formato = document.getElementById("formato").value;
+    const W = 1080;
+    const H = (formato === "1920") ? 1920 : 1080;
+
+    const canvas = document.getElementById("c");
+    const ctx = canvas.getContext("2d");
+    canvas.width = W; canvas.height = H;
+
+    // fundo branco
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0,0,W,H);
+
+    await gerarBaseTopo(ctx, W);
+
+    // pega só o primeiro produto
+    const p = produtos[0];
+
+    // card grande central
+    const cardX = 90;
+    const cardW = W - 180;
+    const cardY = 280;
+    const cardH = (H === 1920) ? 1220 : 660;
+
+    ctx.strokeStyle = "rgba(0,0,0,.15)";
+    ctx.lineWidth = 3;
+    roundRect(ctx, cardX, cardY, cardW, cardH, 22);
+    ctx.fillStyle = "#fff";
+    ctx.fill();
+    ctx.stroke();
+
+    // foto (contain, grande)
+    const imgX = cardX + 24;
+    const imgY = cardY + 24;
+    const imgW = cardW - 48;
+    const imgH = cardH * 0.58;
+
+    ctx.fillStyle = "#f5f5f5";
+    roundRect(ctx, imgX, imgY, imgW, imgH, 16);
+    ctx.fill();
+    drawImageContain(ctx, p.img, imgX, imgY, imgW, imgH);
+
+    // textos
+    ctx.fillStyle = "#111";
+    ctx.textAlign = "center";
+
+    ctx.font = "900 52px Arial";
+    wrapText(ctx, p.nome.toUpperCase(), cardX + cardW/2, imgY + imgH + 80, imgW, 54, 2, "center");
+
+    ctx.fillStyle = "#333";
+    ctx.font = "800 30px Arial";
+    wrapText(ctx, p.desc, cardX + cardW/2, imgY + imgH + 150, imgW, 34, 1, "center");
+
+    // preço vermelho
+    ctx.fillStyle = "#d10000";
+    ctx.font = "900 90px Arial";
+    ctx.fillText("R$ " + p.preco, cardX + cardW/2, cardY + cardH - 80);
+
+    // obs (cada/und/kg)
+    ctx.fillStyle = "#444";
+    ctx.font = "900 22px Arial";
+    wrapText(ctx, (p.obs || "").toUpperCase(), cardX + cardW/2, cardY + cardH - 30, imgW, 24, 1, "center");
+
+    ctx.textAlign = "left";
+
+    await gerarRodape(ctx, W, H);
+  }
+
+  async function gerarFolheto(){
+    const formato = document.getElementById("formato").value;
+    const cols = parseInt(document.getElementById("cols").value,10);
+
+    const W = 1080;
+    const H = (formato === "1920") ? 1920 : 1350;
+
+    const canvas = document.getElementById("c");
+    const ctx = canvas.getContext("2d");
+    canvas.width = W; canvas.height = H;
+
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0,0,W,H);
+
+    await gerarBaseTopo(ctx, W);
+
+    // grade
     const topY = 260;
-    const bottomY = H - 130;
+    const bottomY = H - 110; // deixa espaço pro rodapé (já desenha em cima)
     const areaH = bottomY - topY;
 
     const padX = 40;
@@ -391,7 +604,10 @@
 
     const cardW = (W - padX*2 - gapX*(cols-1)) / cols;
     const rows = Math.ceil(produtos.length / cols);
-    const cardH = Math.min(320, (areaH - gapY*(rows-1)) / rows);
+
+    // se tiver poucos produtos, aumenta cardH (pra não ficar vazio)
+    let cardH = (areaH - gapY*(rows-1)) / rows;
+    cardH = Math.max(250, Math.min(320, cardH));
 
     let idx = 0;
     for(let r=0; r<rows; r++){
@@ -402,69 +618,56 @@
         const x = padX + c*(cardW + gapX);
         const y = topY + r*(cardH + gapY);
 
-        // card (limpo)
-        ctx.fillStyle = "#ffffff";
+        // card
+        ctx.fillStyle = "#fff";
         ctx.strokeStyle = "rgba(0,0,0,.15)";
         ctx.lineWidth = 2;
         roundRect(ctx, x, y, cardW, cardH, 16);
-        ctx.fill();
-        ctx.stroke();
+        ctx.fill(); ctx.stroke();
 
-        // foto (contain)
+        // foto
         const imgX = x + 10;
         const imgY = y + 10;
         const imgW = cardW - 20;
-        const imgH = cardH * 0.55;
+        const imgH = cardH * 0.52;
+
         ctx.fillStyle = "#f5f5f5";
         roundRect(ctx, imgX, imgY, imgW, imgH, 12);
         ctx.fill();
         drawImageContain(ctx, p.img, imgX, imgY, imgW, imgH);
 
-        // textos
+        // nome
         ctx.fillStyle = "#111";
-        ctx.font = "900 22px Arial";
-        wrapText(ctx, p.nome.toUpperCase(), x + cardW/2, y + imgH + 52, cardW-18, 24, 2, "center");
+        ctx.font = "900 20px Arial";
+        wrapText(ctx, p.nome.toUpperCase(), x + cardW/2, y + imgH + 48, cardW-18, 22, 2, "center");
 
+        // desc
         ctx.fillStyle = "#333";
-        ctx.font = "700 18px Arial";
-        wrapText(ctx, p.desc, x + cardW/2, y + imgH + 102, cardW-18, 20, 1, "center");
+        ctx.font = "800 16px Arial";
+        wrapText(ctx, p.desc, x + cardW/2, y + imgH + 92, cardW-18, 18, 1, "center");
 
-        // preço vermelho grande
+        // preço
         ctx.fillStyle = "#d10000";
-        ctx.font = "900 40px Arial";
+        ctx.font = "900 36px Arial";
         ctx.textAlign = "center";
-        ctx.fillText("R$ " + p.preco, x + cardW/2, y + cardH - 26);
-        ctx.textAlign = "left";
+        ctx.fillText("R$ " + p.preco, x + cardW/2, y + cardH - 22);
 
-        // obs pequena
+        // obs
         ctx.fillStyle = "#444";
-        ctx.font = "700 16px Arial";
-        wrapText(ctx, (p.obs || "").toUpperCase(), x + cardW/2, y + cardH - 6, cardW-18, 18, 1, "center");
+        ctx.font = "900 14px Arial";
+        wrapText(ctx, (p.obs || "").toUpperCase(), x + cardW/2, y + cardH - 4, cardW-18, 16, 1, "center");
+        ctx.textAlign = "left";
       }
     }
 
-    // ===== Rodapé =====
-    ctx.fillStyle = "#f2f2f2";
-    ctx.fillRect(0, H-85, W, 85);
-
-    ctx.fillStyle = "#111";
-    ctx.font = "700 18px Arial";
-    const footer = [loja, whats].filter(Boolean).join(" • ");
-    ctx.fillText(footer || "Ofertas válidas enquanto durarem os estoques. Imagens ilustrativas.", 40, H-35);
-
-    lastDataUrl = canvas.toDataURL("image/png");
-    const out = document.getElementById("out");
-    out.src = lastDataUrl;
-    out.style.display = "block";
-    document.getElementById("empty").style.display = "none";
-    document.getElementById("baixarBtn").style.display = "block";
+    await gerarRodape(ctx, W, H);
   }
 
   function baixar(){
     if(!lastDataUrl) return;
     const a = document.createElement("a");
     a.href = lastDataUrl;
-    a.download = "folheto-atacadista.png";
+    a.download = (modo === "ind") ? "oferta-individual.png" : "folheto-ofertas.png";
     document.body.appendChild(a);
     a.click();
     a.remove();
