@@ -7,12 +7,10 @@
 <style>
   :root{
     --bg:#081a2e;
-    --card:#0f2b4a;
     --muted:#b8c7da;
     --text:#eaf2ff;
     --accent:#ff3b30;
     --accent2:#ffd400;
-    --ok:#00a650;
   }
   *{box-sizing:border-box}
   body{
@@ -24,13 +22,9 @@
   .wrap{max-width:1100px;margin:0 auto;}
   h1{margin:6px 0 4px;font-size:22px}
   p{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.4}
-  .grid{
-    display:grid; gap:14px;
-    grid-template-columns: 1fr;
-  }
-  @media (min-width: 980px){
-    .grid{grid-template-columns: 430px 1fr;}
-  }
+  .grid{display:grid; gap:14px; grid-template-columns: 1fr;}
+  @media (min-width: 980px){ .grid{grid-template-columns: 430px 1fr;} }
+
   .panel{
     background:rgba(255,255,255,.06);
     border:1px solid rgba(255,255,255,.12);
@@ -63,7 +57,7 @@
     width:100%; border:0; border-radius:12px; padding:12px 14px;
     font-weight:700; cursor:pointer; color:white; margin-top:12px;
   }
-  .btn.ok{background:linear-gradient(180deg,#12c06b,#00a650)}
+  .btn.ok{background:linear-gradient(180deg,#ff5a52,#ff3b30)}
   .btn.blue{background:linear-gradient(180deg,#2d67ff,#1b4dff); display:none;}
   .small{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.4}
 
@@ -84,10 +78,7 @@
     padding:10px; font-weight:700; cursor:pointer;
   }
 
-  .previewBox{
-    padding:14px;
-    background:rgba(0,0,0,.12);
-  }
+  .previewBox{padding:14px;background:rgba(0,0,0,.12)}
   #out{
     width:100%;
     border-radius:16px;
@@ -107,14 +98,14 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>Flyer de ofertas (estilo supermercado)</h1>
-  <p>Adicione vários produtos e gere um catálogo pronto pro WhatsApp. Tudo grátis (roda no seu navegador).</p>
+  <h1>Flyer de ofertas (Status 1080×1920)</h1>
+  <p>Adicione produtos e gere um catálogo vertical pronto pro WhatsApp Status.</p>
 
   <div class="grid">
     <div class="panel">
       <div class="hd">
         <b>Configuração do flyer</b>
-        <span class="pill">Vários produtos</span>
+        <span class="pill">2 colunas • Status</span>
       </div>
       <div class="bd">
         <label>Logo (opcional)</label>
@@ -123,19 +114,8 @@
         <label>Título</label>
         <input id="titulo" placeholder="Ex: SUPER OFERTAS" value="SUPER OFERTAS" />
 
-        <div class="row two">
-          <div>
-            <label>Subtítulo (opcional)</label>
-            <input id="subtitulo" placeholder="Ex: FINAL DE SEMANA" value="FINAL DE SEMANA" />
-          </div>
-          <div>
-            <label>Formato</label>
-            <select id="formato">
-              <option value="1350">Feed (1080×1350)</option>
-              <option value="1920">Status (1080×1920)</option>
-            </select>
-          </div>
-        </div>
+        <label>Subtítulo (opcional)</label>
+        <input id="subtitulo" placeholder="Ex: FINAL DE SEMANA" value="FINAL DE SEMANA" />
 
         <div class="row two">
           <div>
@@ -150,9 +130,7 @@
 
         <label>Adicionar produto</label>
         <div class="prodItem">
-          <div class="full">
-            <input type="file" id="pFoto" accept="image/*" />
-          </div>
+          <div class="full"><input type="file" id="pFoto" accept="image/*" /></div>
           <input id="pNome" placeholder="Nome do produto" />
           <input id="pUn" placeholder="Unidade (ex: 1kg / 1L / und)" />
           <input id="pPreco" placeholder="Preço (ex: 9,99)" />
@@ -162,12 +140,10 @@
 
         <div class="products" id="lista"></div>
 
-        <button class="btn ok" onclick="gerarFlyer()">Gerar flyer</button>
+        <button class="btn ok" onclick="gerarFlyer()">Gerar flyer (Status)</button>
         <button class="btn blue" id="baixarBtn" onclick="baixar()">Baixar PNG</button>
 
-        <div class="small">
-          Dica: 6 a 10 produtos fica perfeito. Se passar disso, use o formato Status (1080×1920).
-        </div>
+        <div class="small">Dica: 6 a 10 produtos fica perfeito no Status.</div>
       </div>
     </div>
 
@@ -187,7 +163,6 @@
 </div>
 
 <script>
-  // ===== util =====
   function roundRect(ctx, x, y, w, h, r){
     const min = Math.min(w,h);
     r = Math.min(r, min/2);
@@ -240,7 +215,6 @@
     });
   }
 
-  // ===== estado =====
   const produtos = [];
   let lastDataUrl = "";
 
@@ -251,7 +225,7 @@
       const d = document.createElement("div");
       d.className = "prodItem";
       d.innerHTML = `
-        <div class="full" style="color:#d7e6ff;font-weight:700">#${i+1} • ${p.nome} (${p.preco})</div>
+        <div class="full" style="color:#d7e6ff;font-weight:700">#${i+1} • ${p.nome} (R$ ${p.preco})</div>
         <div>Unidade: <b>${p.unidade || "-"}</b></div>
         <div>Obs: <b>${p.obs || "-"}</b></div>
         <button type="button" onclick="remover(${i})">Remover</button>
@@ -275,7 +249,6 @@
     const img = await loadFileAsImage(file);
     produtos.push({img, nome, unidade, preco, obs});
 
-    // limpar
     document.getElementById("pFoto").value = "";
     document.getElementById("pNome").value = "";
     document.getElementById("pUn").value = "";
@@ -300,7 +273,6 @@
     const subtitulo = (document.getElementById("subtitulo").value || "").trim();
     const loja = (document.getElementById("loja").value || "").trim();
     const whats = (document.getElementById("whats").value || "").trim();
-    const formato = document.getElementById("formato").value;
 
     const logoFile = document.getElementById("logo").files[0];
     const logoImg = await loadFileAsImage(logoFile);
@@ -309,7 +281,7 @@
     const ctx = canvas.getContext("2d");
 
     const W = 1080;
-    const H = (formato === "1920") ? 1920 : 1350;
+    const H = 1920; // Status fixo
     canvas.width = W;
     canvas.height = H;
 
@@ -322,40 +294,40 @@
 
     // Header faixa
     ctx.fillStyle = "#ff3b30";
-    roundRect(ctx, 60, 50, W-120, 170, 40);
+    roundRect(ctx, 60, 50, W-120, 190, 44);
     ctx.fill();
 
-    // Título grande
+    // Título
     ctx.fillStyle = "#fff";
-    ctx.font = "900 86px Arial";
-    ctx.fillText(titulo.toUpperCase().slice(0,16), 110, 150);
+    ctx.font = "900 88px Arial";
+    ctx.fillText(titulo.toUpperCase().slice(0,16), 110, 155);
 
     // Subtítulo
     if(subtitulo){
       ctx.fillStyle = "#fff";
-      ctx.font = "800 44px Arial";
-      ctx.fillText(subtitulo.toUpperCase().slice(0,20), 110, 205);
+      ctx.font = "800 46px Arial";
+      ctx.fillText(subtitulo.toUpperCase().slice(0,20), 110, 215);
     }
 
-    // Logo no header (direita)
+    // Logo (direita)
     if(logoImg){
       ctx.fillStyle = "rgba(255,255,255,.22)";
-      roundRect(ctx, W-320, 80, 200, 110, 26);
+      roundRect(ctx, W-320, 88, 200, 120, 28);
       ctx.fill();
-      drawLogoContain(ctx, logoImg, W-320, 80, 200, 110, 26);
+      drawLogoContain(ctx, logoImg, W-320, 88, 200, 120, 28);
     }
 
-    // Área de produtos (grade)
-    const topY = 260;
-    const bottomY = H - 140;
+    // Grade 2 colunas com cards maiores
+    const topY = 270;
+    const bottomY = H - 155;
     const areaH = bottomY - topY;
 
-    // colunas: 2 no 1350, 2 no 1920 (com mais linhas)
     const cols = 2;
     const gap = 28;
     const cardW = (W - 60*2 - gap) / cols;
+
     const rows = Math.ceil(produtos.length / cols);
-    const cardH = Math.min(280, (areaH - gap*(rows-1)) / rows);
+    const cardH = Math.min(330, (areaH - gap*(rows-1)) / rows);
 
     let idx = 0;
     for(let r=0; r<rows; r++){
@@ -375,7 +347,7 @@
         const imgX = x + 18;
         const imgY = y + 18;
         const imgW = cardW - 36;
-        const imgH = cardH * 0.58;
+        const imgH = cardH * 0.62;
         ctx.fillStyle = "#f4f6fb";
         roundRect(ctx, imgX, imgY, imgW, imgH, 20);
         ctx.fill();
@@ -383,35 +355,35 @@
 
         // nome
         ctx.fillStyle = "#111";
-        ctx.font = "800 34px Arial";
-        ctx.fillText(p.nome.slice(0,22), x + 22, y + imgH + 70);
+        ctx.font = "800 36px Arial";
+        ctx.fillText(p.nome.slice(0,22), x + 22, y + imgH + 78);
 
         // unidade/obs
         ctx.fillStyle = "#333";
-        ctx.font = "28px Arial";
+        ctx.font = "30px Arial";
         const meta = [p.unidade, p.obs].filter(Boolean).join(" ");
-        ctx.fillText(meta.slice(0,26), x + 22, y + imgH + 105);
+        ctx.fillText(meta.slice(0,26), x + 22, y + imgH + 118);
 
         // preço (selo amarelo)
         ctx.fillStyle = "#ffd400";
-        roundRect(ctx, x + 22, y + cardH - 78, cardW - 44, 60, 18);
+        roundRect(ctx, x + 22, y + cardH - 82, cardW - 44, 62, 18);
         ctx.fill();
 
         ctx.fillStyle = "#111";
-        ctx.font = "900 44px Arial";
-        ctx.fillText("R$ " + p.preco, x + 44, y + cardH - 35);
+        ctx.font = "900 46px Arial";
+        ctx.fillText("R$ " + p.preco, x + 44, y + cardH - 36);
       }
     }
 
     // Rodapé
     ctx.fillStyle = "rgba(0,0,0,.18)";
-    roundRect(ctx, 60, H-115, W-120, 70, 26);
+    roundRect(ctx, 60, H-125, W-120, 78, 28);
     ctx.fill();
 
     ctx.fillStyle = "#fff";
-    ctx.font = "700 30px Arial";
+    ctx.font = "700 32px Arial";
     const footer = [loja, whats].filter(Boolean).join(" • ");
-    ctx.fillText(footer || "Aproveite! Ofertas por tempo limitado.", 90, H-68);
+    ctx.fillText(footer || "Aproveite! Ofertas por tempo limitado.", 90, H-73);
 
     // Output
     lastDataUrl = canvas.toDataURL("image/png");
@@ -426,7 +398,7 @@
     if(!lastDataUrl) return;
     const a = document.createElement("a");
     a.href = lastDataUrl;
-    a.download = "flyer-ofertas.png";
+    a.download = "flyer-ofertas-status.png";
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -434,4 +406,3 @@
 </script>
 </body>
 </html>
-
