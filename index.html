@@ -3,31 +3,31 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Flyer de Ofertas (WhatsApp)</title>
+<title>Flyer Supermercado (WhatsApp)</title>
 <style>
   :root{
-    --bg:#081a2e;
-    --muted:#b8c7da;
     --text:#eaf2ff;
-    --accent:#ff3b30;
-    --accent2:#ffd400;
+    --muted:#b8c7da;
+    --panel: rgba(255,255,255,.06);
+    --line: rgba(255,255,255,.12);
   }
   *{box-sizing:border-box}
   body{
-    margin:0; font-family:Arial, Helvetica, sans-serif;
-    background:linear-gradient(180deg,#061425,#0d3b66);
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(180deg,#061425,#0d3b66);
     color:var(--text);
     padding:18px;
   }
   .wrap{max-width:1100px;margin:0 auto;}
   h1{margin:6px 0 4px;font-size:22px}
   p{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.4}
-  .grid{display:grid; gap:14px; grid-template-columns: 1fr;}
+  .grid{display:grid;gap:14px;grid-template-columns:1fr;}
   @media (min-width: 980px){ .grid{grid-template-columns: 430px 1fr;} }
 
   .panel{
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.12);
+    background: var(--panel);
+    border:1px solid var(--line);
     border-radius:16px;
     overflow:hidden;
     box-shadow:0 18px 50px rgba(0,0,0,.35);
@@ -36,46 +36,54 @@
     padding:12px 14px;
     background:rgba(0,0,0,.18);
     border-bottom:1px solid rgba(255,255,255,.10);
-    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
   }
   .hd b{font-size:14px}
-  .pill{font-size:12px;color:#d7e6ff;background:rgba(255,212,0,.18);border:1px solid rgba(255,212,0,.35);padding:6px 10px;border-radius:999px}
+  .pill{
+    font-size:12px;color:#d7e6ff;
+    background: rgba(255,212,0,.18);
+    border:1px solid rgba(255,212,0,.35);
+    padding:6px 10px;border-radius:999px;white-space:nowrap
+  }
   .bd{padding:12px 14px;background:rgba(10,24,40,.25)}
   label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px}
   input, select{
-    width:100%; padding:11px 12px; border-radius:12px;
+    width:100%;
+    padding:11px 12px;
+    border-radius:12px;
     border:1px solid rgba(255,255,255,.14);
     background:rgba(255,255,255,.06);
-    color:var(--text); outline:none;
+    color:var(--text);
+    outline:none;
   }
   input::placeholder{color:rgba(234,242,255,.55)}
-  .row{display:grid; gap:10px}
+  .row{display:grid;gap:10px}
   .row.two{grid-template-columns:1fr 1fr}
-  @media (max-width: 460px){ .row.two{grid-template-columns:1fr} }
+  @media(max-width:460px){.row.two{grid-template-columns:1fr}}
 
   .btn{
-    width:100%; border:0; border-radius:12px; padding:12px 14px;
-    font-weight:700; cursor:pointer; color:white; margin-top:12px;
+    width:100%;border:0;border-radius:12px;padding:12px 14px;
+    font-weight:700;cursor:pointer;color:white;margin-top:12px;
   }
-  .btn.ok{background:linear-gradient(180deg,#ff5a52,#ff3b30)}
-  .btn.blue{background:linear-gradient(180deg,#2d67ff,#1b4dff); display:none;}
+  .btn.ok{background:linear-gradient(180deg,#12c06b,#00a650)}
+  .btn.blue{background:linear-gradient(180deg,#2d67ff,#1b4dff);display:none}
   .small{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.4}
 
-  .products{display:flex; flex-direction:column; gap:10px; margin-top:10px}
   .prodItem{
     background:rgba(0,0,0,.18);
     border:1px solid rgba(255,255,255,.10);
     border-radius:14px;
     padding:10px;
     display:grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:1fr 1fr;
     gap:8px;
+    margin-top:10px;
   }
-  .prodItem .full{grid-column:1 / -1}
+  .prodItem .full{grid-column:1/-1}
   .prodItem button{
-    grid-column:1 / -1;
-    background:#ff3b30; color:white; border:0; border-radius:10px;
-    padding:10px; font-weight:700; cursor:pointer;
+    grid-column:1/-1;
+    background:#ff3b30;color:white;border:0;border-radius:10px;
+    padding:10px;font-weight:700;cursor:pointer;
   }
 
   .previewBox{padding:14px;background:rgba(0,0,0,.12)}
@@ -98,29 +106,29 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>Flyer de ofertas (Status 1080×1920)</h1>
-  <p>Adicione produtos e gere um catálogo vertical pronto pro WhatsApp Status.</p>
+  <h1>Flyer estilo supermercado (Status 1080×1920)</h1>
+  <p>Fundo amarelo/verde, etiquetas de preço e cards bem organizados (igual os exemplos).</p>
 
   <div class="grid">
     <div class="panel">
       <div class="hd">
-        <b>Configuração do flyer</b>
-        <span class="pill">2 colunas • Status</span>
+        <b>Montar flyer</b>
+        <span class="pill">2 colunas • bonito</span>
       </div>
       <div class="bd">
         <label>Logo (opcional)</label>
         <input type="file" id="logo" accept="image/*" />
 
         <label>Título</label>
-        <input id="titulo" placeholder="Ex: SUPER OFERTAS" value="SUPER OFERTAS" />
+        <input id="titulo" value="SUPER OFERTAS" />
 
-        <label>Subtítulo (opcional)</label>
-        <input id="subtitulo" placeholder="Ex: FINAL DE SEMANA" value="FINAL DE SEMANA" />
+        <label>Subtítulo</label>
+        <input id="subtitulo" value="FINAL DE SEMANA" />
 
         <div class="row two">
           <div>
             <label>Nome da loja</label>
-            <input id="loja" placeholder="Ex: Mercantil São Raimundo" />
+            <input id="loja" placeholder="Ex: Mercantil do João" />
           </div>
           <div>
             <label>WhatsApp</label>
@@ -134,16 +142,16 @@
           <input id="pNome" placeholder="Nome do produto" />
           <input id="pUn" placeholder="Unidade (ex: 1kg / 1L / und)" />
           <input id="pPreco" placeholder="Preço (ex: 9,99)" />
-          <input id="pObs" class="full" placeholder="Obs (opcional: -1kg, por cliente, etc)" />
+          <input id="pObs" class="full" placeholder="Obs (opcional: -1kg, por cliente…)" />
           <button type="button" onclick="addProduto()">+ Adicionar na lista</button>
         </div>
 
-        <div class="products" id="lista"></div>
+        <div id="lista"></div>
 
-        <button class="btn ok" onclick="gerarFlyer()">Gerar flyer (Status)</button>
+        <button class="btn ok" onclick="gerarFlyer()">Gerar flyer</button>
         <button class="btn blue" id="baixarBtn" onclick="baixar()">Baixar PNG</button>
 
-        <div class="small">Dica: 6 a 10 produtos fica perfeito no Status.</div>
+        <div class="small">Dica: com 2 a 8 produtos ele fica bem cheio e bonito.</div>
       </div>
     </div>
 
@@ -153,7 +161,7 @@
         <span class="pill">Pronta pra postar</span>
       </div>
       <div class="previewBox">
-        <div class="empty" id="empty">Clique em <b>Gerar flyer</b> para ver a imagem aqui.</div>
+        <div class="empty" id="empty">Gere o flyer para ver a imagem aqui.</div>
         <img id="out" alt="Flyer pronto" />
       </div>
     </div>
@@ -163,6 +171,7 @@
 </div>
 
 <script>
+  // ===== desenho util =====
   function roundRect(ctx, x, y, w, h, r){
     const min = Math.min(w,h);
     r = Math.min(r, min/2);
@@ -175,18 +184,6 @@
     ctx.closePath();
   }
 
-  function drawLogoContain(ctx, img, x, y, w, h, r){
-    const iw=img.width, ih=img.height;
-    const s=Math.min(w/iw, h/ih);
-    const nw=iw*s, nh=ih*s;
-    const nx=x+(w-nw)/2, ny=y+(h-nh)/2;
-    ctx.save();
-    roundRect(ctx,x,y,w,h,r);
-    ctx.clip();
-    ctx.drawImage(img,nx,ny,nw,nh);
-    ctx.restore();
-  }
-
   function drawImageCover(ctx, img, x, y, w, h, r){
     const iw=img.width, ih=img.height;
     const ir=iw/ih, rr=w/h;
@@ -197,6 +194,18 @@
     roundRect(ctx,x,y,w,h,r);
     ctx.clip();
     ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h);
+    ctx.restore();
+  }
+
+  function drawLogoContain(ctx, img, x, y, w, h, r){
+    const iw=img.width, ih=img.height;
+    const s=Math.min(w/iw, h/ih);
+    const nw=iw*s, nh=ih*s;
+    const nx=x+(w-nw)/2, ny=y+(h-nh)/2;
+    ctx.save();
+    roundRect(ctx,x,y,w,h,r);
+    ctx.clip();
+    ctx.drawImage(img,nx,ny,nw,nh);
     ctx.restore();
   }
 
@@ -215,6 +224,30 @@
     });
   }
 
+  function drawStar(ctx, cx, cy, spikes, outerR, innerR){
+    let rot = Math.PI / 2 * 3;
+    let x = cx;
+    let y = cy;
+    let step = Math.PI / spikes;
+
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - outerR);
+    for (let i = 0; i < spikes; i++) {
+      x = cx + Math.cos(rot) * outerR;
+      y = cy + Math.sin(rot) * outerR;
+      ctx.lineTo(x, y);
+      rot += step;
+
+      x = cx + Math.cos(rot) * innerR;
+      y = cy + Math.sin(rot) * innerR;
+      ctx.lineTo(x, y);
+      rot += step;
+    }
+    ctx.lineTo(cx, cy - outerR);
+    ctx.closePath();
+  }
+
+  // ===== estado =====
   const produtos = [];
   let lastDataUrl = "";
 
@@ -245,16 +278,14 @@
       alert("Para adicionar: Foto + Nome + Preço (obrigatório).");
       return;
     }
-
     const img = await loadFileAsImage(file);
     produtos.push({img, nome, unidade, preco, obs});
 
-    document.getElementById("pFoto").value = "";
-    document.getElementById("pNome").value = "";
-    document.getElementById("pUn").value = "";
-    document.getElementById("pPreco").value = "";
-    document.getElementById("pObs").value = "";
-
+    document.getElementById("pFoto").value="";
+    document.getElementById("pNome").value="";
+    document.getElementById("pUn").value="";
+    document.getElementById("pPreco").value="";
+    document.getElementById("pObs").value="";
     renderLista();
   }
 
@@ -270,7 +301,7 @@
     }
 
     const titulo = (document.getElementById("titulo").value || "SUPER OFERTAS").trim();
-    const subtitulo = (document.getElementById("subtitulo").value || "").trim();
+    const subtitulo = (document.getElementById("subtitulo").value || "FINAL DE SEMANA").trim();
     const loja = (document.getElementById("loja").value || "").trim();
     const whats = (document.getElementById("whats").value || "").trim();
 
@@ -280,54 +311,89 @@
     const canvas = document.getElementById("c");
     const ctx = canvas.getContext("2d");
 
-    const W = 1080;
-    const H = 1920; // Status fixo
-    canvas.width = W;
-    canvas.height = H;
+    const W = 1080, H = 1920;
+    canvas.width = W; canvas.height = H;
 
-    // Fundo
-    const bg = ctx.createLinearGradient(0,0,W,H);
-    bg.addColorStop(0,"#0b1b2b");
-    bg.addColorStop(1,"#0d3b66");
-    ctx.fillStyle = bg;
+    // ===== FUNDO "supermercado" amarelo/verde =====
+    ctx.fillStyle = "#0a7b3a";
     ctx.fillRect(0,0,W,H);
 
-    // Header faixa
-    ctx.fillStyle = "#ff3b30";
-    roundRect(ctx, 60, 50, W-120, 190, 44);
+    const g1 = ctx.createRadialGradient(280,260,20, 280,260,700);
+    g1.addColorStop(0,"#ffe15a");
+    g1.addColorStop(1,"rgba(255,225,90,0)");
+    ctx.fillStyle = g1;
+    ctx.fillRect(0,0,W,H);
+
+    const g2 = ctx.createRadialGradient(860,520,20, 860,520,800);
+    g2.addColorStop(0,"#9bff67");
+    g2.addColorStop(1,"rgba(155,255,103,0)");
+    ctx.fillStyle = g2;
+    ctx.fillRect(0,0,W,H);
+
+    // bolhas decorativas
+    for(let i=0;i<22;i++){
+      const x = Math.random()*W;
+      const y = Math.random()*H;
+      const r = 18 + Math.random()*55;
+      ctx.beginPath();
+      ctx.fillStyle = "rgba(255,255,255,.10)";
+      ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    // ===== HEADER com estilo =====
+    // faixa branca inclinada (como decoração)
+    ctx.save();
+    ctx.rotate(-0.08);
+    ctx.fillStyle = "rgba(255,255,255,.16)";
+    ctx.fillRect(-200, 110, W+400, 110);
+    ctx.restore();
+
+    // faixa vermelha principal
+    ctx.fillStyle = "#e11b22";
+    roundRect(ctx, 70, 80, W-140, 230, 55);
     ctx.fill();
 
-    // Título
+    // brilho no header
+    ctx.fillStyle = "rgba(255,255,255,.18)";
+    roundRect(ctx, 90, 100, W-180, 90, 45);
+    ctx.fill();
+
+    // título
     ctx.fillStyle = "#fff";
-    ctx.font = "900 88px Arial";
-    ctx.fillText(titulo.toUpperCase().slice(0,16), 110, 155);
+    ctx.font = "900 100px Arial";
+    ctx.fillText(titulo.toUpperCase().slice(0,14), 130, 200);
 
-    // Subtítulo
-    if(subtitulo){
-      ctx.fillStyle = "#fff";
-      ctx.font = "800 46px Arial";
-      ctx.fillText(subtitulo.toUpperCase().slice(0,20), 110, 215);
-    }
+    ctx.font = "800 56px Arial";
+    ctx.fillText(subtitulo.toUpperCase().slice(0,18), 130, 270);
 
-    // Logo (direita)
+    // logo no canto (com base branca)
     if(logoImg){
-      ctx.fillStyle = "rgba(255,255,255,.22)";
-      roundRect(ctx, W-320, 88, 200, 120, 28);
+      ctx.fillStyle = "rgba(255,255,255,.90)";
+      roundRect(ctx, W-260, 120, 160, 160, 34);
       ctx.fill();
-      drawLogoContain(ctx, logoImg, W-320, 88, 200, 120, 28);
+      drawLogoContain(ctx, logoImg, W-260, 120, 160, 160, 34);
     }
 
-    // Grade 2 colunas com cards maiores
-    const topY = 270;
-    const bottomY = H - 155;
+    // ===== Grade 2 colunas (centraliza quando poucos itens) =====
+    const cols = 2;
+    const gap = 30;
+
+    // calcula quantas linhas e altura do card pra ocupar a tela
+    const rows = Math.ceil(produtos.length / cols);
+
+    const topY = 360;
+    const bottomY = H - 170;
     const areaH = bottomY - topY;
 
-    const cols = 2;
-    const gap = 28;
-    const cardW = (W - 60*2 - gap) / cols;
+    const cardW = (W - 80*2 - gap) / cols;
 
-    const rows = Math.ceil(produtos.length / cols);
-    const cardH = Math.min(330, (areaH - gap*(rows-1)) / rows);
+    // se tiver poucos produtos, aumenta card
+    let cardH = Math.min(360, (areaH - gap*(rows-1)) / rows);
+    cardH = Math.max(cardH, 320);
+
+    // se tiver só 1 produto, centraliza
+    const startX = (produtos.length === 1) ? (W - cardW)/2 : 80;
 
     let idx = 0;
     for(let r=0; r<rows; r++){
@@ -335,55 +401,84 @@
         if(idx >= produtos.length) break;
         const p = produtos[idx++];
 
-        const x = 60 + c*(cardW + gap);
+        const x = startX + c*(cardW + gap);
         const y = topY + r*(cardH + gap);
 
-        // card branco
+        // card branco com sombra
+        ctx.save();
+        ctx.shadowColor = "rgba(0,0,0,.25)";
+        ctx.shadowBlur = 18;
+        ctx.shadowOffsetY = 10;
         ctx.fillStyle = "rgba(255,255,255,.96)";
-        roundRect(ctx, x, y, cardW, cardH, 26);
+        roundRect(ctx, x, y, cardW, cardH, 32);
         ctx.fill();
+        ctx.restore();
 
         // foto
         const imgX = x + 18;
         const imgY = y + 18;
         const imgW = cardW - 36;
         const imgH = cardH * 0.62;
+
         ctx.fillStyle = "#f4f6fb";
-        roundRect(ctx, imgX, imgY, imgW, imgH, 20);
+        roundRect(ctx, imgX, imgY, imgW, imgH, 22);
         ctx.fill();
-        drawImageCover(ctx, p.img, imgX, imgY, imgW, imgH, 20);
+        drawImageCover(ctx, p.img, imgX, imgY, imgW, imgH, 22);
 
         // nome
         ctx.fillStyle = "#111";
-        ctx.font = "800 36px Arial";
-        ctx.fillText(p.nome.slice(0,22), x + 22, y + imgH + 78);
+        ctx.font = "900 38px Arial";
+        ctx.fillText(p.nome.slice(0,22), x + 24, y + imgH + 92);
 
         // unidade/obs
         ctx.fillStyle = "#333";
-        ctx.font = "30px Arial";
+        ctx.font = "32px Arial";
         const meta = [p.unidade, p.obs].filter(Boolean).join(" ");
-        ctx.fillText(meta.slice(0,26), x + 22, y + imgH + 118);
+        ctx.fillText(meta.slice(0,26), x + 24, y + imgH + 132);
 
-        // preço (selo amarelo)
-        ctx.fillStyle = "#ffd400";
-        roundRect(ctx, x + 22, y + cardH - 82, cardW - 44, 62, 18);
+        // ===== etiqueta de preço (bolha branca com borda vermelha) =====
+        const tagW = cardW - 44;
+        const tagH = 78;
+        const tagX = x + 22;
+        const tagY = y + cardH - 98;
+
+        ctx.fillStyle = "#ffffff";
+        roundRect(ctx, tagX, tagY, tagW, tagH, 26);
         ctx.fill();
 
-        ctx.fillStyle = "#111";
+        // borda vermelha
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = "#e11b22";
+        roundRect(ctx, tagX, tagY, tagW, tagH, 26);
+        ctx.stroke();
+
+        // mini “estrela” (ícone)
+        ctx.fillStyle = "#ffd400";
+        drawStar(ctx, tagX + 36, tagY + 39, 5, 18, 9);
+        ctx.fill();
+
+        // texto preço
+        ctx.fillStyle = "#e11b22";
         ctx.font = "900 46px Arial";
-        ctx.fillText("R$ " + p.preco, x + 44, y + cardH - 36);
+        ctx.fillText("R$ " + p.preco, tagX + 70, tagY + 54);
       }
     }
 
-    // Rodapé
-    ctx.fillStyle = "rgba(0,0,0,.18)";
-    roundRect(ctx, 60, H-125, W-120, 78, 28);
+    // ===== Rodapé =====
+    ctx.fillStyle = "rgba(0,0,0,.20)";
+    roundRect(ctx, 70, H-120, W-140, 75, 28);
     ctx.fill();
 
+    // “ícones” simples
+    ctx.fillStyle = "rgba(255,255,255,.85)";
+    ctx.beginPath(); ctx.arc(110, H-82, 10, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(140, H-82, 10, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(170, H-82, 10, 0, Math.PI*2); ctx.fill();
+
     ctx.fillStyle = "#fff";
-    ctx.font = "700 32px Arial";
+    ctx.font = "800 34px Arial";
     const footer = [loja, whats].filter(Boolean).join(" • ");
-    ctx.fillText(footer || "Aproveite! Ofertas por tempo limitado.", 90, H-73);
+    ctx.fillText(footer || "Aproveite! Ofertas por tempo limitado.", 200, H-70);
 
     // Output
     lastDataUrl = canvas.toDataURL("image/png");
@@ -398,7 +493,7 @@
     if(!lastDataUrl) return;
     const a = document.createElement("a");
     a.href = lastDataUrl;
-    a.download = "flyer-ofertas-status.png";
+    a.download = "flyer-super-ofertas.png";
     document.body.appendChild(a);
     a.click();
     a.remove();
