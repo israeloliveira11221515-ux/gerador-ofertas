@@ -1,637 +1,176 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gerador de Ofertas</title>
-  <style>
-    :root{
-      --bg1:#07121f;
-      --bg2:#0b2440;
-      --card:#0f2b4a;
-      --card2:#0b223b;
-      --text:#eaf2ff;
-      --muted:#b8c7da;
-      --accent:#00a650;
-      --accent2:#1b4dff;
-      --danger:#ff3b30;
-      --price:#ffd400;
-      --shadow: 0 20px 60px rgba(0,0,0,.35);
-      --radius: 18px;
-    }
-    *{ box-sizing: border-box; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-      color:var(--text);
-      background: radial-gradient(1200px 600px at 20% 0%, #123a5a 0%, transparent 60%),
-                  radial-gradient(1000px 600px at 90% 20%, #0d3b66 0%, transparent 55%),
-                  linear-gradient(180deg, var(--bg1), var(--bg2));
-      min-height:100vh;
-      padding: 26px 14px 40px;
-    }
-    .wrap{
-      max-width: 1080px;
-      margin: 0 auto;
-    }
-    .top{
-      display:flex;
-      gap:14px;
-      align-items:flex-start;
-      justify-content:space-between;
-      margin-bottom: 16px;
-    }
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    .brand h1{
-      margin:0;
-      font-size: clamp(22px, 2.2vw, 30px);
-      letter-spacing: .3px;
-    }
-    .brand p{
-      margin:0;
-      color:var(--muted);
-      font-size: 14px;
-      line-height: 1.4;
-    }
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    @media (min-width: 900px){
-      .grid{
-        grid-template-columns: 420px 1fr;
-        align-items:start;
-      }
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gerador de Ofertas</title>
 
-    .panel{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .panel .hd{
-      padding: 14px 16px;
-      background: rgba(0,0,0,.18);
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .hd .title{
-      font-weight: 700;
-      letter-spacing:.2px;
-    }
-    .hd .pill{
-      font-size:12px;
-      color:#d7e6ff;
-      background: rgba(27,77,255,.18);
-      border:1px solid rgba(27,77,255,.35);
-      padding: 6px 10px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-    .panel .bd{
-      padding: 14px 16px 16px;
-      background: rgba(10,24,40,.35);
-    }
+<style>
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(180deg,#07121f,#0b2440);
+color:white;
+text-align:center;
+}
 
-    .row{ display:grid; grid-template-columns: 1fr; gap: 10px; }
-    .row.two{ grid-template-columns: 1fr 1fr; }
-    .row.three{ grid-template-columns: 1fr 1fr 1fr; }
-    @media (max-width: 460px){
-      .row.two, .row.three{ grid-template-columns: 1fr; }
-    }
+.container{
+max-width:420px;
+margin:20px auto;
+background:#0f2b4a;
+padding:18px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
 
-    label{
-      display:block;
-      font-size:12px;
-      color: var(--muted);
-      margin: 8px 0 6px;
-    }
-    input, textarea, select{
-      width:100%;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding: 12px 12px;
-      outline: none;
-      font-size: 14px;
-    }
-    textarea{ min-height: 74px; resize: vertical; }
-    input::placeholder, textarea::placeholder{ color: rgba(234,242,255,.55); }
+input, textarea{
+width:100%;
+padding:12px;
+margin:6px 0;
+border-radius:12px;
+border:none;
+font-size:14px;
+}
 
-    .uploader{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    @media (max-width: 460px){ .uploader{ grid-template-columns: 1fr; } }
+button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:14px;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+}
 
-    .uploadBox{
-      border-radius: 16px;
-      border: 1px dashed rgba(255,255,255,.22);
-      background: rgba(255,255,255,.05);
-      padding: 12px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      align-items:stretch;
-    }
-    .uploadTop{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .uploadTop b{ font-size: 13px; }
-    .uploadTop span{ font-size: 12px; color: var(--muted); }
-    .preview{
-      height: 140px;
-      border-radius: 14px;
-      background: rgba(0,0,0,.25);
-      border: 1px solid rgba(255,255,255,.10);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-    }
-    .preview img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      display:none;
-    }
-    .preview .hint{
-      font-size: 12px;
-      color: rgba(234,242,255,.65);
-      padding: 0 10px;
-      text-align:center;
-    }
-    .btn{
-      border:0;
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-weight: 700;
-      cursor:pointer;
-      color:white;
-      background: linear-gradient(180deg, #12c06b, #00a650);
-      box-shadow: 0 12px 30px rgba(0,166,80,.25);
-      transition: transform .08s ease, filter .12s ease;
-      width:100%;
-      font-size: 15px;
-    }
-    .btn:hover{ filter: brightness(1.02); }
-    .btn:active{ transform: translateY(1px); }
+.gerar{background:#00a650;color:white;}
+.baixar{background:#1b4dff;color:white;display:none;}
 
-    .btn.secondary{
-      background: linear-gradient(180deg, #2d67ff, #1b4dff);
-      box-shadow: 0 12px 30px rgba(27,77,255,.25);
-      display:none;
-      margin-top: 10px;
-    }
+#resultado{
+width:95%;
+margin-top:18px;
+border-radius:14px;
+display:none;
+}
 
-    .rightBd{
-      padding: 14px 16px 18px;
-      background: rgba(10,24,40,.35);
-    }
+canvas{display:none;}
+</style>
 
-    .outputWrap{
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-    }
-    .output{
-      width:100%;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      min-height: 240px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .output img{
-      width:100%;
-      height:auto;
-      display:none;
-    }
-    .output .empty{
-      padding: 28px 16px;
-      text-align:center;
-      color: rgba(234,242,255,.7);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    canvas{ display:none; }
-    .note{
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 10px;
-      line-height: 1.4;
-    }
-  </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div class="brand">
-        <h1>Gerador de ofertas (WhatsApp)</h1>
-        <p>Cadastre o produto e gere uma arte pronta em PNG (1080×1080) com preço grande e logo da loja.</p>
-      </div>
-    </div>
 
-    <div class="grid">
-      <!-- ESQUERDA: FORM -->
-      <div class="panel">
-        <div class="hd">
-          <div class="title">Dados do produto</div>
-          <div class="pill">Grátis • Sem login</div>
-        </div>
-        <div class="bd">
+<div class="container">
+<h2>Gerar oferta</h2>
 
-          <div class="uploader">
-            <div class="uploadBox">
-              <div class="uploadTop">
-                <b>Foto do produto</b>
-                <span>obrigatório</span>
-              </div>
-              <div class="preview" id="prevProdBox">
-                <div class="hint">Escolha uma foto nítida do produto</div>
-                <img id="prevProd" alt="Preview produto"/>
-              </div>
-              <input type="file" id="foto" accept="image/*" />
-            </div>
+<input type="file" id="foto" accept="image/*">
+<input type="file" id="logo" accept="image/*">
 
-            <div class="uploadBox">
-              <div class="uploadTop">
-                <b>Logo da loja</b>
-                <span>opcional</span>
-              </div>
-              <div class="preview" id="prevLogoBox">
-                <div class="hint">Envie seu logo (PNG/JPG). Transparente fica melhor.</div>
-                <img id="prevLogo" alt="Preview logo"/>
-              </div>
-              <input type="file" id="logo" accept="image/*" />
-            </div>
-          </div>
+<input type="text" id="nome" placeholder="Nome do produto">
+<input type="text" id="gramas" placeholder="Peso ex: 500g">
+<input type="text" id="preco" placeholder="Preço ex: 12,99">
+<textarea id="descricao" placeholder="Descrição"></textarea>
 
-          <label>Nome do produto</label>
-          <input type="text" id="nome" placeholder="Ex: Arroz branco tipo 1" />
+<input type="text" id="loja" placeholder="Nome da loja">
+<input type="text" id="whats" placeholder="WhatsApp">
 
-          <div class="row two">
-            <div>
-              <label>Peso / Gramas</label>
-              <input type="text" id="gramas" placeholder="Ex: 1kg / 500g" />
-            </div>
-            <div>
-              <label>Preço</label>
-              <input type="text" id="preco" placeholder="Ex: 12,99" />
-            </div>
-          </div>
+<button class="gerar" onclick="gerar()">Gerar arte</button> <button class="baixar" id="baixarBtn" onclick="baixar()">Baixar imagem</button>
 
-          <label>Descrição (curta)</label>
-          <textarea id="descricao" placeholder="Ex: Oferta válida hoje. Estoque limitado."></textarea>
-
-          <div class="row two">
-            <div>
-              <label>Nome da loja</label>
-              <input type="text" id="loja" placeholder="Ex: Mercantil do João" />
-            </div>
-            <div>
-              <label>WhatsApp / Telefone</label>
-              <input type="text" id="whats" placeholder="Ex: (88) 9 9999-9999" />
-            </div>
-          </div>
-
-          <div class="row two">
-            <div>
-              <label>Texto do selo</label>
-              <input type="text" id="selo" placeholder="Ex: PROMOÇÃO" value="PROMOÇÃO" />
-            </div>
-            <div>
-              <label>Formato</label>
-              <select id="formato">
-                <option value="1080">Quadrado (1080×1080) • melhor pro feed</option>
-                <option value="1920">Status (1080×1920) • melhor pros stories</option>
-              </select>
-            </div>
-          </div>
-
-          <button class="btn" onclick="gerar()">Gerar arte</button>
-          <button class="btn secondary" id="baixarBtn" onclick="baixar()">Baixar PNG</button>
-
-          <div class="note">
-            Dica: use preço com vírgula (ex: 12,99). Logo pequeno no canto fica mais “profissional”.
-          </div>
-        </div>
-      </div>
-
-      <!-- DIREITA: PREVIEW -->
-      <div class="panel">
-        <div class="hd">
-          <div class="title">Pré-visualização</div>
-          <div class="pill">Pronta pra postar</div>
-        </div>
-        <div class="rightBd">
-          <div class="outputWrap">
-            <div class="output">
-              <div class="empty" id="emptyMsg">
-                A imagem gerada vai aparecer aqui. <br/><br/>
-                1) Envie a foto do produto <br/>
-                2) Preencha os campos <br/>
-                3) Clique em <b>Gerar arte</b>
-              </div>
-              <img id="resultado" alt="Arte pronta"/>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <canvas id="c"></canvas>
-  </div>
+<img id="resultado">
+<canvas id="c"></canvas>
+</div>
 
 <script>
-  // ===== Helpers desenho =====
-  function roundRect(ctx, x, y, w, h, r){
-    const min = Math.min(w, h);
-    r = Math.min(r, min/2);
-    ctx.beginPath();
-    ctx.moveTo(x+r, y);
-    ctx.arcTo(x+w, y, x+w, y+h, r);
-    ctx.arcTo(x+w, y+h, x, y+h, r);
-    ctx.arcTo(x, y+h, x, y, r);
-    ctx.arcTo(x, y, x+w, y, r);
-    ctx.closePath();
-  }
 
-  function wrapText(ctx, text, x, y, maxWidth, lineHeight, maxLines){
-    text = (text || "").trim();
-    if (!text) return y;
-    const words = text.split(/\s+/);
-    let line = "";
-    let lines = 0;
+function carregarImagem(file){
+return new Promise((resolve,reject)=>{
+if(!file) return resolve(null);
 
-    for (let n = 0; n < words.length; n++){
-      const test = line + words[n] + " ";
-      if (ctx.measureText(test).width > maxWidth && n > 0){
-        ctx.fillText(line.trim(), x, y);
-        line = words[n] + " ";
-        y += lineHeight;
-        lines++;
-        if (maxLines && lines >= maxLines) return y;
-      } else {
-        line = test;
-      }
-    }
-    if (!maxLines || lines < maxLines) ctx.fillText(line.trim(), x, y);
-    return y + lineHeight;
-  }
-
-  function drawImageCover(ctx, img, x, y, w, h, r){
-    const iw = img.width, ih = img.height;
-    const ir = iw / ih;
-    const rr = w / h;
-
-    let sx, sy, sw, sh;
-    if (ir > rr){
-      sh = ih;
-      sw = ih * rr;
-      sx = (iw - sw) / 2;
-      sy = 0;
-    } else {
-      sw = iw;
-      sh = iw / rr;
-      sx = 0;
-      sy = (ih - sh) / 2;
-    }
-
-    ctx.save();
-    roundRect(ctx, x, y, w, h, r);
-    ctx.clip();
-    ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
-    ctx.restore();
-  }
-
-  function drawLogoContain(ctx, img, x, y, w, h, r){
-    // "contain": mantém proporção dentro do box
-    const iw = img.width, ih = img.height;
-    const scale = Math.min(w / iw, h / ih);
-    const nw = iw * scale, nh = ih * scale;
-    const nx = x + (w - nw)/2;
-    const ny = y + (h - nh)/2;
-
-    ctx.save();
-    roundRect(ctx, x, y, w, h, r);
-    ctx.clip();
-    ctx.drawImage(img, nx, ny, nw, nh);
-    ctx.restore();
-  }
-
-  // ===== Preview uploads =====
-  function previewFile(input, imgEl, boxEl){
-    const file = input.files && input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      imgEl.src = e.target.result;
-      imgEl.style.display = "block";
-      const hint = boxEl.querySelector(".hint");
-      if (hint) hint.style.display = "none";
-    };
-    reader.readAsDataURL(file);
-  }
-
-  const fotoIn = document.getElementById("foto");
-  const logoIn = document.getElementById("logo");
-  fotoIn.addEventListener("change", () => previewFile(fotoIn, document.getElementById("prevProd"), document.getElementById("prevProdBox")));
-  logoIn.addEventListener("change", () => previewFile(logoIn, document.getElementById("prevLogo"), document.getElementById("prevLogoBox")));
-
-  // ===== Geração =====
-  let lastDataUrl = "";
-
-  function carregarImagem(file){
-    return new Promise((resolve, reject) => {
-      if (!file) return resolve(null);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => resolve(img);
-        img.onerror = reject;
-        img.src = e.target.result;
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  async function gerar(){
-  const nome = document.getElementById("nome").value || "Produto";
-  const gramas = document.getElementById("gramas").value || "";
-  const descricao = document.getElementById("descricao").value || "";
-  const preco = document.getElementById("preco").value || "";
-  const loja = document.getElementById("loja").value || "";
-  const whats = document.getElementById("whats").value || "";
-  const selo = document.getElementById("selo").value || "OFERTA";
-  const formato = document.getElementById("formato").value;
-
-  const fileProd = document.getElementById("foto").files[0];
-  const fileLogo = document.getElementById("logo").files[0];
-
-  if (!fileProd){
-    alert("Escolha a foto do produto (obrigatório).");
-    return;
-  }
-
-  const prodImg = await carregarImagem(fileProd);
-  const logoImg = await carregarImagem(fileLogo);
-
-  const canvas = document.getElementById("c");
-  const ctx = canvas.getContext("2d");
-
-  const W = 1080;
-  const H = (formato === "1920") ? 1920 : 1080;
-  canvas.width = W;
-  canvas.height = H;
-
-  // ===== Fundo =====
-  const grad = ctx.createLinearGradient(0,0,W,H);
-  grad.addColorStop(0, "#061425");
-  grad.addColorStop(1, "#0d3b66");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0,0,W,H);
-
-  // ===== Card =====
-  const pad = 60;
-  const cardW = W - pad*2;
-  const cardH = H - pad*2;
-
-  ctx.shadowColor = "rgba(0,0,0,.30)";
-  ctx.shadowBlur = 40;
-  ctx.shadowOffsetY = 14;
-  ctx.fillStyle = "rgba(255,255,255,.96)";
-  roundRect(ctx, pad, pad, cardW, cardH, 46);
-  ctx.fill();
-  ctx.shadowBlur = 0;
-  ctx.shadowOffsetY = 0;
-
-  // ===== Medidas base =====
-  const innerX = pad + 60;
-  const innerW = cardW - 120;
-
-  // Reservas de área inferior (pra não bagunçar)
-  const footerH = 70;          // rodapé
-  const gapFooter = 18;
-  const priceH = 150;          // caixa do preço
-  const gapBeforePrice = 22;
-
-  const footerY = H - pad - 40;                 // baseline do texto do rodapé
-  const priceY = footerY - gapFooter - priceH;  // topo da caixa do preço
-  const contentBottom = priceY - gapBeforePrice; // até onde texto pode ir (nome/descrição)
-
-  // ===== Foto (ajustada) =====
-  const photoX = innerX;
-  const photoY = pad + 120;
-  const photoW = innerW;
-
-  // Diminui a foto no 1080 pra sobrar espaço lembrando nome/desc/preço
-  const photoH = (H === 1920) ? 850 : 460;
-
-  ctx.fillStyle = "#f4f6fb";
-  roundRect(ctx, photoX, photoY, photoW, photoH, 36);
-  ctx.fill();
-  drawImageCover(ctx, prodImg, photoX, photoY, photoW, photoH, 36);
-
-  // ===== Selo =====
-  ctx.save();
-  ctx.translate(photoX + 18, pad + 70);
-  ctx.rotate(-0.10);
-  ctx.fillStyle = "#FF3B30";
-  roundRect(ctx, 0, 0, 360, 96, 48);
-  ctx.fill();
-  ctx.fillStyle = "#fff";
-  ctx.font = "800 52px Arial";
-  ctx.fillText(selo.toUpperCase().slice(0, 14), 26, 64);
-  ctx.restore();
-
-  // ===== Logo (topo direito) =====
-  if (logoImg){
-    const logoBoxW = 220;
-    const logoBoxH = 120;
-    const lx = pad + cardW - 60 - logoBoxW;
-    const ly = pad + 60;
-    ctx.fillStyle = "rgba(0,0,0,.06)";
-    roundRect(ctx, lx, ly, logoBoxW, logoBoxH, 22);
-    ctx.fill();
-    drawLogoContain(ctx, logoImg, lx, ly, logoBoxW, logoBoxH, 22);
-  }
-
-  // ===== Textos (limitados pra não invadir o preço) =====
-  let y = photoY + photoH + 75;
-
-  // Nome
-  ctx.fillStyle = "#111";
-  ctx.font = "800 70px Arial";
-  y = wrapText(ctx, nome, innerX, y, innerW, 76, 2);
-
-  // Gramas badge
-  if (gramas.trim()){
-    ctx.fillStyle = "#EAF2FF";
-    roundRect(ctx, innerX, y + 6, 280, 82, 41);
-    ctx.fill();
-    ctx.fillStyle = "#1B4DFF";
-    ctx.font = "800 42px Arial";
-    ctx.fillText(gramas, innerX + 26, y + 62);
-    y = y + 105; // empurra o próximo texto pra baixo
-  } else {
-    y = y + 20;
-  }
-
-  // Descrição (1 ou 2 linhas) mas sem passar do contentBottom
-  ctx.fillStyle = "#3b3b3b";
-  ctx.font = "40px Arial";
-
-  // Se estiver muito perto do preço, corta descrição
-  if (y < contentBottom - 60){
-    const maxLines = (H === 1920) ? 2 : 1; // no 1080 fica mais limpo com 1 linha
-    wrapText(ctx, descricao, innerX, y, innerW, 48, maxLines);
-  }
-
-  // ===== Preço =====
-  const priceText = preco ? ("R$ " + preco) : "R$ --";
-
-  ctx.fillStyle = "#FFD400";
-  roundRect(ctx, innerX, priceY, innerW, priceH, 42);
-  ctx.fill();
-
-  ctx.fillStyle = "#111";
-  ctx.font = "900 120px Arial";
-  ctx.fillText(priceText, innerX + 40, priceY + 112);
-
-  // ===== Rodapé (sempre por cima, sem sobrepor) =====
-  const footer = [loja, whats].filter(Boolean).join(" • ");
-  ctx.fillStyle = "#1f2d3d";
-  ctx.font = "36px Arial";
-  ctx.fillText(footer || "Aproveite! Oferta por tempo limitado.", innerX, footerY);
-
-  // ===== Mostrar resultado =====
-  lastDataUrl = canvas.toDataURL("image/png");
-
-  const out = document.getElementById("resultado");
-  out.src = lastDataUrl;
-  out.style.display = "block";
-  document.getElementById("emptyMsg").style.display = "none";
-  document.getElementById("baixarBtn").style.display = "block";
+const reader=new FileReader();
+reader.onload=e=>{
+const img=new Image();
+img.onload=()=>resolve(img);
+img.onerror=reject;
+img.src=e.target.result;
+};
+reader.readAsDataURL(file);
+});
 }
+
+let lastDataUrl="";
+
+async function gerar(){
+
+const nome=document.getElementById("nome").value||"Produto";
+const gramas=document.getElementById("gramas").value||"";
+const descricao=document.getElementById("descricao").value||"";
+const preco=document.getElementById("preco").value||"";
+const loja=document.getElementById("loja").value||"";
+const whats=document.getElementById("whats").value||"";
+
+const fileProd=document.getElementById("foto").files[0];
+const fileLogo=document.getElementById("logo").files[0];
+
+if(!fileProd){
+alert("Escolha a foto do produto");
+return;
+}
+
+const prodImg=await carregarImagem(fileProd);
+const logoImg=await carregarImagem(fileLogo);
+
+const canvas=document.getElementById("c");
+const ctx=canvas.getContext("2d");
+
+canvas.width=1080;
+canvas.height=1080;
+
+ctx.fillStyle="#ffffff";
+ctx.fillRect(0,0,1080,1080);
+
+ctx.drawImage(prodImg,140,120,800,480);
+
+ctx.fillStyle="#111";
+ctx.font="bold 60px Arial";
+ctx.fillText(nome,120,720);
+
+ctx.font="40px Arial";
+ctx.fillText(gramas,120,780);
+
+ctx.font="36px Arial";
+ctx.fillText(descricao,120,830);
+
+ctx.fillStyle="#FFD400";
+ctx.fillRect(120,860,840,150);
+
+ctx.fillStyle="#111";
+ctx.font="bold 120px Arial";
+ctx.fillText("R$ "+preco,160,975);
+
+ctx.font="32px Arial";
+ctx.fillText(loja+" • "+whats,120,1040);
+
+if(logoImg){
+ctx.drawImage(logoImg,820,40,200,120);
+}
+
+lastDataUrl=canvas.toDataURL("image/png");
+
+const out=document.getElementById("resultado");
+out.src=lastDataUrl;
+out.style.display="block";
+document.getElementById("baixarBtn").style.display="block";
+}
+
+function baixar(){
+const a=document.createElement("a");
+a.href=lastDataUrl;
+a.download="oferta.png";
+a.click();
+}
+
+</script>
+
+</body>
+</html>
